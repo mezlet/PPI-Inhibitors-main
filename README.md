@@ -8,7 +8,7 @@ conda install -c conda-forge rdkit
 ## Dataset
 2p2iComplexPairs Dataset can be downloaded from this link [https://github.com/adibayaseen/PPI-Inhibitors/blob/01ad4975fb9133825b1bf9e71b64fcdaaa5e4d8b/Data/2p2iComplexPairs.txt]<br/>
 2p2iInhibitorsSMILES.txt Dataset can be downloaded from this link [https://github.com/adibayaseen/PPI-Inhibitors/blob/01ad4975fb9133825b1bf9e71b64fcdaaa5e4d8b/Data/2p2iInhibitorsSMILES.txt]<br/>
-Binders With Tanimoto Similarity 0.85 dataset from here [Data/Binders With Tanimoto Similarity 0.85.csv] <br/>
+Binders With Tanimoto Similarity 0.85 dataset from here [https://github.com/adibayaseen/PPI-Inhibitors/blob/01ad4975fb9133825b1bf9e71b64fcdaaa5e4d8b/Data/Binders%20With%20Tanimoto%20Similarity%200.85.csv] <br/>
 
 # Data discription
 ## 2p2iComplexPairs.txt
