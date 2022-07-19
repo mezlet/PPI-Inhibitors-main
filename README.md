@@ -1,6 +1,4 @@
 # PPI-Inhibitors
-2p2iComplexPairs.txt
-
 
 ## Set Up Environment
 ```
