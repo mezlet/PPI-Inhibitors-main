@@ -277,7 +277,6 @@
 1F47_A_2_B 1S1S 1F47 WAC CC(C)S(=O)(=O)NCCCn1c2ccccc2c3c1[C@@H]4CCCC[N@]4CC3=O  1
 1F47_A_2_B 1Y2F 1F47 WAI Cc1ccc(cc1Cl)Nc2nccc(n2)c3ccnc(c3)N4CCN(CC4)CCN  1
 1F47_A_2_B 1Y2G 1F47 CL3 CC(=O)N(C)c1cccc(c1)c2nnc3n2nc(cc3)c4ccccc4  1
-1TUE_A_2_B 1R6N 1TUE 434 Cc1ccc2c(c1)C(=O)[C@]3(C2=O)[C@@H]([C@@H]([C@@H](O3)c4ccc(c(c4)Cl)Cl)C(=O)Nc5ccc(cc5)c6csnn6)C(=O)O  1
 1BKD_S_2_R 2LWI 1BKD KOB c1cc(ccc1NC(=S)NNc2ccc(cc2[N](=O)[O-])[N](=O)[O-])F  1
 1BKD_S_2_R 5VBE 1BKD 92V COc1ccc(cc1)n2c(c(cn2)C(=O)NCCCS)C(F)(F)F  1
 1BKD_S_2_R 5VBZ 1BKD 92V COc1ccc(cc1)n2c(c(cn2)C(=O)NCCCS)C(F)(F)F  1
