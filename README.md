@@ -39,6 +39,8 @@ Binders With Tanimoto Similarity 0.85 dataset from here [https://github.com/adib
        '6SJ', '6SS', '6ST', '7HC', '6GG', '6GG', '9QW', 'NUT', 'EYH'],
       dtype='<U3')]"	<Next Column> OC(=O)c1ccc2c3C[C@H]4[C@H]([C@H](c5cccc(Cl)c5F)[C@@]5(N4CC4CC4)C(=O)Nc4nc(Cl)ccc54)n3nc2c1<Next Column> 0.84
  <newline><br/>
-
 ```
+## Protein complex Features for Positive data (2p2i complexes) Drive link is here <br> [https://drive.google.com/file/d/1goeDiPZSKT1Xx3j00eNG9xlqYkLLv1gW/view?usp=sharing]<br/>
+#Code
+#GearNet Embedding in combination with GNN-based pipeline Drive link is here  <br> [https://drive.google.com/file/d/1GOYEKLQCoGea9QQ72kujy0rdJKbUSYAE/view?usp=sharing]<br/>
 
