@@ -43,7 +43,8 @@ Binders With Tanimoto Similarity 0.85 dataset from here [https://github.com/adib
 ## GNN-based pipeline Protein complex Features for Positive data (2p2i complexes) Drive link is here <br> [https://drive.google.com/file/d/1goeDiPZSKT1Xx3j00eNG9xlqYkLLv1gW/view?usp=sharing]<br/>
 ## GNN-based pipeline DBD5 Protein complex Features for Negative examples, Drive link is here  <br> [https://drive.google.com/file/d/1GOYEKLQCoGea9QQ72kujy0rdJKbUSYAE/view?usp=sharing]<br/>
 # Code
-#Clone github repository to collab and give githubpath as /content/PPI-Inhibitors/
-#path is the drive path  with folder name GNN-PPI-Inhibitor  
-## GearNet Embedding in combination with GNN-based pipeline
+# Clone GitHub repository to collab and give githubpath as /content/PPI-Inhibitors/
+# Download 2p2i complex features and DBD5 complex features from Google Drive and path with folder name GNN-PPI-Inhibitor  
+## GNN-based pipeline Result can be reconstructed using this collab code <br> [https://github.com/adibayaseen/PPI-Inhibitors/blob/a0c8476b075d6da82bcde804db09502dfd8d0100/code/GNN_based_Pipeline_Load_Model_ipynb.ipynb] </br>
+## GearNet Embedding in combination with GNN-based pipeline can be reconstructed using link <br? [https://github.com/adibayaseen/PPI-Inhibitors/blob/58a1adced4c0efede92d5689ecf22ad2755bd03f/code/Load_Model_GearNetEmbedding_and_GNN_based_pipeline_ipynb.ipynb]</br>>
 
