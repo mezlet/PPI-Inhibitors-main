@@ -1,5 +1,13 @@
 # Predicting small-molecule inhibition of protein complexes
 
+## Abstract
+
+**Motivation:**
+Protein-Protein Interactions (PPIs) have key roles in biological processes and are involved in numerous diseases, making discovery of PPI inhibitors a key focus in drug development. Traditional approaches for this purpose involve expensive and time-consuming experiments in the wet lab. Such drug development efforts can greatly benefit from novel machine learning methods to predict inhibitors of specific PPIs. To the best of our knowledge, there is no existing method that takes a protein complex and a compound as inputs to predict whether the given compound acts as an inhibitor of that complex.
+**Methods:**
+We present a graph neural network approach that takes the structure of a protein complex and the SMILES representation of a compound to predict the potential of the compound to inhibit the interaction between proteins in the given complex in a targeted manner.
+**Results:**
+The proposed method, trained and validated on 714 inhibitors of 23 complexes in the 2p2i-DB-v2 database, demonstrates superior predictive accuracy (cross-validation AUC-ROC of 0.85) outperforming baseline kernel methods and pre-trained neural network approaches. We further tested the predictive performance of our model on two independent external datasets – one collected from recent publications and another consisting of putative inhibitors of the SARS-CoV-2-Spike and Human-ACE2 protein complex with AUC-ROCs of 0.82 and 0.78, respectively. This pioneering application represents the first successful method for predicting specific protein complex inhibitors for drug design and development and lays the groundwork for future model development in this vital field.
 
 ## Set Up Environment
 ```
