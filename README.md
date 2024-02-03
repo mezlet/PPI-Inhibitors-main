@@ -1,4 +1,5 @@
-# PPI-Inhibitors
+# Predicting small-molecule inhibition of protein complexes
+
 
 ## Set Up Environment
 ```
