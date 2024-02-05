@@ -59,6 +59,6 @@ GNN-based pipeline DBD5 Protein complex Features for Negative examples, Drive li
 GNN-based pipeline Result can be reconstructed using this collab code <br> [https://github.com/adibayaseen/PPI-Inhibitors/blob/a0c8476b075d6da82bcde804db09502dfd8d0100/code/GNN_based_Pipeline_Load_Model_ipynb.ipynb] </br>
 ##  GearNet Embedding in combination with GNN-based pipeline Results
 GearNet Embedding in combination with GNN-based pipeline can be reconstructed using the link <br> [https://github.com/adibayaseen/PPI-Inhibitors/blob/58a1adced4c0efede92d5689ecf22ad2755bd03f/code/Load_Model_GearNetEmbedding_and_GNN_based_pipeline_ipynb.ipynb]</br>
-
 # Results 
+Our GNN-based pipeline results are better than our Baseline method (SVM) and GearNet Embedding. All result can be reconstructed using colab notebooks linked in code section<br> 
 ![Comparative Results ](https://github.com/adibayaseen/PPI-Inhibitors/blob/855f848c4596d95e44fc9fc9237e3ed65a45f314/Final%20Results/new%20new%20aucroc.png)
