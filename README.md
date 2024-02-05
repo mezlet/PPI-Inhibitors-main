@@ -60,3 +60,5 @@ GNN-based pipeline Result can be reconstructed using this collab code <br> [http
 ##  GearNet Embedding in combination with GNN-based pipeline Results
 GearNet Embedding in combination with GNN-based pipeline can be reconstructed using the link <br> [https://github.com/adibayaseen/PPI-Inhibitors/blob/58a1adced4c0efede92d5689ecf22ad2755bd03f/code/Load_Model_GearNetEmbedding_and_GNN_based_pipeline_ipynb.ipynb]</br>
 
+# Results 
+![Comparative Results ](https://github.com/adibayaseen/PPI-Inhibitors/blob/855f848c4596d95e44fc9fc9237e3ed65a45f314/Final%20Results/new%20new%20aucroc.png)
