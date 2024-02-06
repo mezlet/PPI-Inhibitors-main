@@ -68,4 +68,5 @@ Baseline method (SVM) Result can be reconstructed using this collab code <br> [h
 GearNet Embedding results can be reconstructed using the link <br> [https://github.com/adibayaseen/PPI-Inhibitors/blob/9d04108e683601a393ecd0e733ac6e65207eb8a3/code/GearNet%20Embedding.ipynb]</br>
 # Results 
 Our GNN-based pipeline results are better than our Baseline method (SVM) and GearNet Embedding. All result can be reconstructed using colab notebooks linked in code section<br> 
-![Comparative Results ](https://github.com/adibayaseen/PPI-Inhibitors/blob/855f848c4596d95e44fc9fc9237e3ed65a45f314/Final%20Results/new%20new%20aucroc.png)
+![AUC-ROC Comparative Results ](https://github.com/adibayaseen/PPI-Inhibitors/blob/e49a2d6b091c3c174c5cab9a30d732374286935a/Final%20Results/Figures/Final%20Aucroc.png)
+![AUC-PR Comparative Results ](https://github.com/adibayaseen/PPI-Inhibitors/blob/e49a2d6b091c3c174c5cab9a30d732374286935a/Final%20Results/Figures/Final%20Aucpr.png)
