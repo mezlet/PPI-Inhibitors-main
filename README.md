@@ -22,6 +22,9 @@ pip install biopython
 Binders With Tanimoto Similarity 0.85 dataset from here [https://github.com/adibayaseen/PPI-Inhibitors/blob/01ad4975fb9133825b1bf9e71b64fcdaaa5e4d8b/Data/Binders%20With%20Tanimoto%20Similarity%200.85.csv] <br/>
 
 # Data discription
+# Input File used in All Methods 
+WriteAllexamplesRandomBindersIdsAll_24JAN_Binary.txt can be downloaded from this link [https://github.com/adibayaseen/PPI-Inhibitors/blob/2d6bd03422602ec19147870c487e64018b52660f/Data/WriteAllexamplesRandomBindersIdsAll_24JAN_Binary.txt]<br/>
+*3UVW_A_2_B 3UVW_A_2_B WSH 1.0
 ## 2p2iComplexPairs.txt
 * Input File format <br/>
 ```
