@@ -24,7 +24,8 @@ Binders With Tanimoto Similarity 0.85 dataset from here [https://github.com/adib
 # Data discription
 # Input File used in All Methods 
 WriteAllexamplesRandomBindersIdsAll_24JAN_Binary.txt can be downloaded from this link [https://github.com/adibayaseen/PPI-Inhibitors/blob/2d6bd03422602ec19147870c487e64018b52660f/Data/WriteAllexamplesRandomBindersIdsAll_24JAN_Binary.txt]<br/>
-*3UVW_A_2_B 3UVW_A_2_B WSH 1.0
+> Name of Complex Example Belongs<space> Target Complex name <space> Inhibitor Name  <space> Label<newline> <br/>
+* E.g 3UVW_A_2_B 3UVW_A_2_B WSH 1.0
 ## 2p2iComplexPairs.txt
 * Input File format <br/>
 ```
