@@ -20,6 +20,7 @@ pip install biopython
 2p2iComplexPairs Dataset can be downloaded from this link [https://github.com/adibayaseen/PPI-Inhibitors/blob/01ad4975fb9133825b1bf9e71b64fcdaaa5e4d8b/Data/2p2iComplexPairs.txt]<br/>
 2p2iInhibitorsSMILES.txt Dataset can be downloaded from this link [https://github.com/adibayaseen/PPI-Inhibitors/blob/01ad4975fb9133825b1bf9e71b64fcdaaa5e4d8b/Data/2p2iInhibitorsSMILES.txt]<br/>
 Binders With Tanimoto Similarity 0.85 dataset from here [https://github.com/adibayaseen/PPI-Inhibitors/blob/01ad4975fb9133825b1bf9e71b64fcdaaa5e4d8b/Data/Binders%20With%20Tanimoto%20Similarity%200.85.csv] <br/>
+SuperDrug2 Compounds are used for Random Negative examples can downloaded from here  <br> [https://github.com/adibayaseen/PPI-Inhibitors/blob/b1e45884f61f792399abad2e4492f48083ab1093/Data/approved_drugs_chemical_structure_identifiers.xlsx]<br/>
 
 # Data discription
 # Input File used in All Methods 
@@ -47,7 +48,7 @@ WriteAllexamplesRandomBindersIdsAll_24JAN_Binary.txt can be downloaded from this
 ## Binders With Tanimoto Similarity 0.85
 * Input File format <br/>
 ```
-> (Complex,inhibitor pair)<Next Column> inhibitor Names<Next Column>Binders SMILES<Next Column>Similarity<newline><br/>
+>(Complex,inhibitor pair)<Next Column> inhibitor Names<Next Column>Binders SMILES<Next Column>Similarity<newline><br/>
 1YCR_A_2_B<Next Column> "[array(['IMZ', 'DIZ', '13Q', 'YIN', 'K23', 'MI6', 'TJ2', '07G', 'VZV',
        'LTZ', 'BLF', '0R2', '0R3', '0Y7', 'NUT', '1MN', '1MO', '1MQ',
        '1MT', '1MY', 'Y30', '28W', '2SW', '2TW', '2TZ', '2U0', '2U1',
@@ -57,6 +58,14 @@ WriteAllexamplesRandomBindersIdsAll_24JAN_Binary.txt can be downloaded from this
       dtype='<U3')]"	<Next Column> OC(=O)c1ccc2c3C[C@H]4[C@H]([C@H](c5cccc(Cl)c5F)[C@@]5(N4CC4CC4)C(=O)Nc4nc(Cl)ccc54)n3nc2c1<Next Column> 0.84
  <newline><br/>
 ```
+## Detail of Binders in WriteAllexamplesRandomBindersIdsAll_24JAN_Binary.txt
+```
+Complexname,Binders SMILES
+1YCR_A_2_B,OC(=O)c1ccc2c3C[C@H]4[C@H]([C@H](c5cccc(Cl)c5F)[C@@]5(N4CC4CC4)C(=O)Nc4nc(Cl)ccc54)n3nc2c1
+```
+Unique number for set of binders are saved in WriteAllexamplesRandomBindersIdsAll_24JAN_Binary.txt
+Detail of Binders in WriteAllexamplesRandomBindersIdsAll_24JAN_Binary.txt can be downloaded here <br>[https://github.com/adibayaseen/PPI-Inhibitors/blob/b1e45884f61f792399abad2e4492f48083ab1093/Data/BindersWithComplexname.csv]<br/>
+
 GNN-based pipeline Protein complex Features for Positive data (2p2i complexes) Drive link is here <br> [https://drive.google.com/file/d/1goeDiPZSKT1Xx3j00eNG9xlqYkLLv1gW/view?usp=sharing]<br/>
 GNN-based pipeline DBD5 Protein complex Features for Negative examples, Drive link is here  <br> [https://drive.google.com/file/d/1GOYEKLQCoGea9QQ72kujy0rdJKbUSYAE/view?usp=sharing]<br/>
 # Code
