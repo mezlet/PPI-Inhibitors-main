@@ -9,6 +9,8 @@
 **Results:**
 <br>The proposed method, trained and validated on 714 inhibitors of 23 complexes in the 2p2i-DB-v2 database, demonstrates superior predictive accuracy (cross-validation AUC-ROC of 0.85) outperforming baseline kernel methods and pre-trained neural network approaches. We further tested the predictive performance of our model on two independent external datasets – one collected from recent publications and another consisting of putative inhibitors of the SARS-CoV-2-Spike and Human-ACE2 protein complex with AUC-ROCs of 0.82 and 0.78, respectively. This pioneering application represents the first successful method for predicting specific protein complex inhibitors for drug design and development and lays the groundwork for future model development in this vital field.</br>
 
+ A protein complex consists of two chains (the target chain shown in blue and the off-target chain in red). A given compound can act as an inhibitor for this complex if it can bind to a target chain and disassociate the off-target chain.
+![Inhibition of a protein complex by a small molecule (compound):](https://github.com/adibayaseen/PPI-Inhibitors/blob/87bbc6e2ee5a249a16b050b0fff38f19edd6587f/Final%20Results/Figures/Figure1%20inhibtor%20introduction.png)
 ## Set Up Environment
 ```
 python=3.6
