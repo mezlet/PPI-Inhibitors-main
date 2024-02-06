@@ -12,7 +12,9 @@
 ## Set Up Environment
 ```
 python=3.6
-conda install -c conda-forge rdkit
+!pip install rdkit
+pip install biopython
+
 ```
 ## Dataset
 2p2iComplexPairs Dataset can be downloaded from this link [https://github.com/adibayaseen/PPI-Inhibitors/blob/01ad4975fb9133825b1bf9e71b64fcdaaa5e4d8b/Data/2p2iComplexPairs.txt]<br/>
@@ -52,13 +54,18 @@ Binders With Tanimoto Similarity 0.85 dataset from here [https://github.com/adib
 GNN-based pipeline Protein complex Features for Positive data (2p2i complexes) Drive link is here <br> [https://drive.google.com/file/d/1goeDiPZSKT1Xx3j00eNG9xlqYkLLv1gW/view?usp=sharing]<br/>
 GNN-based pipeline DBD5 Protein complex Features for Negative examples, Drive link is here  <br> [https://drive.google.com/file/d/1GOYEKLQCoGea9QQ72kujy0rdJKbUSYAE/view?usp=sharing]<br/>
 # Code
-## Setting the path of Input 
+## Setting the path of Input or Clone Github repository 
  <br> Clone GitHub repository to collab and give githubpath as /content/PPI-Inhibitors </br>
+ ```
+ !git clone https://github.com/adibayaseen/PPI-Inhibitors
+```
  <br> Download 2p2i complex features and DBD5 complex features from Google Drive and path with folder name GNN-PPI-Inhibitor  </br>
 ## GNN-based Results
-GNN-based pipeline Result can be reconstructed using this collab code <br> [https://github.com/adibayaseen/PPI-Inhibitors/blob/a0c8476b075d6da82bcde804db09502dfd8d0100/code/GNN_based_Pipeline_Load_Model_ipynb.ipynb] </br>
-##  GearNet Embedding in combination with GNN-based pipeline Results
-GearNet Embedding in combination with GNN-based pipeline can be reconstructed using the link <br> [https://github.com/adibayaseen/PPI-Inhibitors/blob/58a1adced4c0efede92d5689ecf22ad2755bd03f/code/Load_Model_GearNetEmbedding_and_GNN_based_pipeline_ipynb.ipynb]</br>
+GNN-based pipeline Result can be reconstructed using this collab code <br> [https://github.com/adibayaseen/PPI-Inhibitors/blob/9d04108e683601a393ecd0e733ac6e65207eb8a3/code/GNN_based_pipeline_Training_for_Predicting_small_molecule_inhibition_of_protein_complexes_ipynb.ipynb] </br>
+## SVM Results
+Baseline method (SVM) Result can be reconstructed using this collab code <br> [https://github.com/adibayaseen/PPI-Inhibitors/blob/9d04108e683601a393ecd0e733ac6e65207eb8a3/code/svmreadfromfile_generate_prediction_binders_and_random_both_as_negative.ipynb] </br>
+##  GearNet Embedding Results
+GearNet Embedding results can be reconstructed using the link <br> [https://github.com/adibayaseen/PPI-Inhibitors/blob/9d04108e683601a393ecd0e733ac6e65207eb8a3/code/GearNet%20Embedding.ipynb]</br>
 # Results 
 Our GNN-based pipeline results are better than our Baseline method (SVM) and GearNet Embedding. All result can be reconstructed using colab notebooks linked in code section<br> 
 ![Comparative Results ](https://github.com/adibayaseen/PPI-Inhibitors/blob/855f848c4596d95e44fc9fc9237e3ed65a45f314/Final%20Results/new%20new%20aucroc.png)
