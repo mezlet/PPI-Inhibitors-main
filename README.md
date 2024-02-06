@@ -69,4 +69,5 @@ GearNet Embedding results can be reconstructed using the link <br> [https://gith
 # Results 
 Our GNN-based pipeline results are better than our Baseline method (SVM) and GearNet Embedding. All result can be reconstructed using colab notebooks linked in code section<br> 
 ![AUC-ROC Comparative Results ](https://github.com/adibayaseen/PPI-Inhibitors/blob/e49a2d6b091c3c174c5cab9a30d732374286935a/Final%20Results/Figures/Final%20Aucroc.png)
+AUc-PR results are shown below
 ![AUC-PR Comparative Results ](https://github.com/adibayaseen/PPI-Inhibitors/blob/e49a2d6b091c3c174c5cab9a30d732374286935a/Final%20Results/Figures/Final%20Aucpr.png)
