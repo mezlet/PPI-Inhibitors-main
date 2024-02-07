@@ -31,6 +31,7 @@ WriteAllexamplesRandomBindersIdsAll_24JAN_Binary.txt can be downloaded from this
 > Name of Complex Example Belongs<space> Target Complex name <space> Inhibitor Name  <space> Label <newline> <br/>
 * E.g 3UVW_A_2_B 3UVW_A_2_B WSH 1.0
 ```
+For Positive Class data belong to 2p2i Database
 ## 2p2iComplexPairs.txt
 * Input File format <br/>
 ```
