@@ -25,7 +25,7 @@ Binders With Tanimoto Similarity 0.85 dataset from here [https://github.com/adib
 SuperDrug2 Compounds are used for Random Negative examples can downloaded from here  <br> [https://github.com/adibayaseen/PPI-Inhibitors/blob/b1e45884f61f792399abad2e4492f48083ab1093/Data/approved_drugs_chemical_structure_identifiers.xlsx]<br/>
 
 # Data discription
-# Input File used in All Methods 
+## Input File used in All Methods 
 WriteAllexamplesRandomBindersIdsAll_24JAN_Binary.txt can be downloaded from this link [https://github.com/adibayaseen/PPI-Inhibitors/blob/2d6bd03422602ec19147870c487e64018b52660f/Data/WriteAllexamplesRandomBindersIdsAll_24JAN_Binary.txt]<br/>
 ```
 > Name of Complex Example Belongs<space> Target Complex name <space> Inhibitor Name  <space> Label <newline> <br/>
