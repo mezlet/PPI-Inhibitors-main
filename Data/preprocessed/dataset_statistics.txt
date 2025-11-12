@@ -1,0 +1,11 @@
+PPI Inhibitors Dataset Statistics
+================================================================================
+
+Training Dataset (22 complexes):
+  - Total examples: 15,695
+  - Positive examples: 857
+  - Negative examples: 14,838
+
+External Test Datasets:
+  - external_2dyh: 72 examples (24 positive, 48 negative)
+  - external_6m0j: 72 examples (24 positive, 48 negative)
