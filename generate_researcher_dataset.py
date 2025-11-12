@@ -1,13 +1,15 @@
 """
-Script to generate the researcher's dataset with exact specifications:
+Script to generate the researcher's dataset with exact specifications by sampling
+from the precomputed dataset WriteAllexamplesRandomBindersIdsAll_24JAN_Binary.txt:
+
 - TOTAL EXAMPLES: 11,127
 - POSITIVE EXAMPLES: 714
 - NEGATIVE EXAMPLES (Non-inhibitors): 10,413
 - UNIQUE PROTEIN COMPLEXES: 22
 - UNIQUE INHIBITORS (from positive examples): 606
 
-This script reads from the source data files and generates a balanced dataset
-according to the research specifications.
+This script reads from the precomputed dataset and intelligently samples to match
+the exact research specifications while maintaining all unique inhibitors.
 
 Author: Claude Code
 Date: 2025-11-12
@@ -16,7 +18,7 @@ Date: 2025-11-12
 import random
 import os
 from collections import defaultdict
-from typing import List, Tuple, Set, Dict
+from typing import List, Tuple, Set
 import sys
 
 # Set random seed for reproducibility
@@ -32,209 +34,100 @@ TARGET_UNIQUE_INHIBITORS = 606
 
 # File paths
 DATA_DIR = 'Data'
-INHIBITORS_FILE = os.path.join(DATA_DIR, '2p2iInhibitorsSMILES.txt')
-BINDERS_FILE = os.path.join(DATA_DIR, 'BindersWithComplexname.csv')
+PRECOMPUTED_FILE = os.path.join(DATA_DIR, 'WriteAllexamplesRandomBindersIdsAll_24JAN_Binary.txt')
 OUTPUT_FILE = os.path.join(DATA_DIR, 'researcher_dataset.txt')
 
 
-def read_inhibitors(filename: str) -> List[Tuple[str, str, str, str, str]]:
+def read_precomputed_dataset(filename: str) -> Tuple[List[Tuple], List[Tuple], Set[str], Set[str]]:
     """
-    Read inhibitor data from 2p2iInhibitorsSMILES.txt
+    Read the precomputed dataset and separate into positives and negatives.
 
-    Returns: List of tuples (complex_name, inhibited_complex, pdb_id, ligand_id, smiles)
+    Returns: (positive_examples, negative_examples, complexes, positive_inhibitors)
     """
-    inhibitors = []
+    positive_examples = []
+    negative_examples = []
+    complexes = set()
+    positive_inhibitors = set()
+
     try:
         with open(filename, 'r') as f:
             for line in f:
                 parts = line.strip().split()
-                if len(parts) >= 6:
+                if len(parts) >= 4:
                     complex_name = parts[0]
-                    inhibited_complex = parts[1]
-                    pdb_id = parts[2]
-                    ligand_id = parts[3]
-                    smiles = parts[4]
-                    inhibitors.append((complex_name, inhibited_complex, pdb_id, ligand_id, smiles))
+                    target_complex = parts[1]
+                    # Compound ID can have spaces, so take everything between target_complex and label
+                    compound_id = ' '.join(parts[2:-1])
+                    label = parts[-1]
+
+                    example = (complex_name, target_complex, compound_id, label)
+                    complexes.add(complex_name)
+
+                    if label == '1.0':
+                        positive_examples.append(example)
+                        positive_inhibitors.add(compound_id)
+                    else:
+                        negative_examples.append(example)
     except FileNotFoundError:
         print(f"Error: File {filename} not found!")
         sys.exit(1)
 
-    return inhibitors
+    return positive_examples, negative_examples, complexes, positive_inhibitors
 
 
-def read_binders(filename: str) -> List[Tuple[str, str]]:
+def sample_positive_examples(positive_examples: List[Tuple], target_count: int,
+                             target_unique_inhibitors: int) -> List[Tuple]:
     """
-    Read binder data from BindersWithComplexname.csv
+    Sample positive examples ensuring we maintain all unique inhibitors.
 
-    Returns: List of tuples (complex_name, smiles)
+    The precomputed dataset has 857 positives with 606 unique inhibitors.
+    We need 714 examples while maintaining all 606 unique inhibitors.
     """
-    binders = []
-    try:
-        with open(filename, 'r') as f:
-            # Skip header
-            next(f)
-            for line in f:
-                parts = line.strip().split(',', 1)
-                if len(parts) == 2:
-                    complex_name = parts[0]
-                    smiles = parts[1]
-                    binders.append((complex_name, smiles))
-    except FileNotFoundError:
-        print(f"Error: File {filename} not found!")
-        sys.exit(1)
+    # Group by inhibitor to ensure we keep at least one example per inhibitor
+    inhibitor_examples = defaultdict(list)
+    for example in positive_examples:
+        inhibitor_id = example[2]
+        inhibitor_examples[inhibitor_id].append(example)
 
-    return binders
+    print(f"  Found {len(inhibitor_examples)} unique inhibitors")
+
+    # First pass: select one example for each unique inhibitor
+    selected = []
+    for inhibitor_id, examples in inhibitor_examples.items():
+        # Randomly select one example for this inhibitor
+        selected.append(random.choice(examples))
+
+    print(f"  After first pass: {len(selected)} examples (one per inhibitor)")
+
+    # Second pass: add more examples to reach target count
+    # Create a pool of remaining examples
+    remaining = [ex for ex in positive_examples if ex not in selected]
+
+    if remaining and len(selected) < target_count:
+        needed = target_count - len(selected)
+        additional = random.sample(remaining, min(needed, len(remaining)))
+        selected.extend(additional)
+
+    # Verify we have all unique inhibitors
+    selected_inhibitors = set([ex[2] for ex in selected])
+
+    if len(selected_inhibitors) != target_unique_inhibitors:
+        print(f"  Warning: Got {len(selected_inhibitors)} unique inhibitors, expected {target_unique_inhibitors}")
+
+    return selected
 
 
-def generate_positive_examples(inhibitors: List[Tuple], target_count: int,
-                              target_unique_inhibitors: int) -> Tuple[List[Tuple[str, str, str, float]], List[str]]:
+def sample_negative_examples(negative_examples: List[Tuple], target_count: int) -> List[Tuple]:
     """
-    Generate positive examples ensuring we maintain target unique inhibitors.
+    Sample negative examples to reach target count.
 
-    Returns: Tuple of (positive_examples, selected_complexes)
+    The precomputed dataset has 14,838 negatives. We need 10,413.
     """
-    # Group inhibitors by complex and count unique inhibitors per complex
-    complex_inhibitors = defaultdict(list)
-    complex_unique_inhibitors = defaultdict(set)
-
-    for complex_name, inhibited_complex, pdb_id, ligand_id, smiles in inhibitors:
-        complex_inhibitors[complex_name].append((complex_name, inhibited_complex, ligand_id))
-        complex_unique_inhibitors[complex_name].add(ligand_id)
-
-    # Sort complexes by number of unique inhibitors (descending)
-    sorted_complexes = sorted(complex_unique_inhibitors.items(),
-                             key=lambda x: len(x[1]), reverse=True)
-
-    # Select top 22 complexes that maximize unique inhibitors
-    selected_complexes = [c[0] for c in sorted_complexes[:TARGET_UNIQUE_COMPLEXES]]
-
-    # Collect all unique inhibitors from selected complexes
-    available_inhibitors = []
-    unique_inhibitors = set()
-
-    for complex_name in selected_complexes:
-        for item in complex_inhibitors[complex_name]:
-            complex_name, inhibited_complex, ligand_id = item
-            available_inhibitors.append((complex_name, inhibited_complex, ligand_id))
-            unique_inhibitors.add(ligand_id)
-
-    print(f"  Selected {len(selected_complexes)} complexes with {len(unique_inhibitors)} unique inhibitors")
-    print(f"  Top 5 complexes: {selected_complexes[:5]}")
-
-    # Ensure we have enough unique inhibitors
-    if len(unique_inhibitors) < target_unique_inhibitors:
-        print(f"  Warning: Only {len(unique_inhibitors)} unique inhibitors available")
-        target_unique_inhibitors = len(unique_inhibitors)
-
-    # First pass: select examples to get exactly target_unique_inhibitors unique inhibitors
-    positive_examples = []
-    selected_inhibitors = set()
-
-    # Shuffle to randomize selection
-    shuffled_inhibitors = available_inhibitors.copy()
-    random.shuffle(shuffled_inhibitors)
-
-    for complex_name, inhibited_complex, ligand_id in shuffled_inhibitors:
-        if len(selected_inhibitors) < target_unique_inhibitors:
-            if ligand_id not in selected_inhibitors:
-                positive_examples.append((complex_name, inhibited_complex, ligand_id, 1.0))
-                selected_inhibitors.add(ligand_id)
-
-    print(f"  After first pass: {len(positive_examples)} examples, {len(selected_inhibitors)} unique inhibitors")
-
-    # Second pass: add more examples from already selected inhibitors to reach target_count
-    attempts = 0
-    max_attempts = target_count * 10
-
-    # Create a pool of examples that use selected inhibitors
-    valid_pool = [ex for ex in available_inhibitors if ex[2] in selected_inhibitors]
-
-    while len(positive_examples) < target_count and attempts < max_attempts:
-        attempts += 1
-        if valid_pool:
-            complex_name, inhibited_complex, ligand_id = random.choice(valid_pool)
-            example = (complex_name, inhibited_complex, ligand_id, 1.0)
-            if example not in positive_examples:
-                positive_examples.append(example)
-
-    # If we have too many, randomly sample
-    if len(positive_examples) > target_count:
-        positive_examples = random.sample(positive_examples, target_count)
-
-    return positive_examples, selected_complexes
-
-
-def generate_negative_examples(binders: List[Tuple], positive_examples: List[Tuple],
-                               target_count: int) -> List[Tuple[str, str, str, float]]:
-    """
-    Generate negative examples from binders and cross-complex pairings.
-
-    Returns: List of tuples (complex_name, target_complex, binder_id/number, label)
-    """
-    # Get complexes from positive examples
-    positive_complexes = list(set([ex[0] for ex in positive_examples]))
-    positive_inhibitors = set([ex[2] for ex in positive_examples])
-
-    # Group binders by complex
-    complex_binders = defaultdict(list)
-    for complex_name, smiles in binders:
-        # Only use binders for complexes in our positive set
-        if complex_name in positive_complexes:
-            complex_binders[complex_name].append(smiles)
-
-    negative_examples = []
-    negative_ids = set()
-    binder_id_counter = 1
-
-    # Strategy 1: Use binders as negatives (with unique IDs)
-    print(f"Generating negatives from binders...")
-    for complex_name in positive_complexes:
-        if complex_name in complex_binders:
-            for smiles in complex_binders[complex_name]:
-                binder_id = str(binder_id_counter)
-                negative_examples.append((complex_name, complex_name, binder_id, 0.0))
-                negative_ids.add(binder_id)
-                binder_id_counter += 1
-
-    print(f"Generated {len(negative_examples)} negative examples from binders")
-
-    # Strategy 2: Cross-complex negative examples (inhibitors with wrong complexes)
-    print(f"Generating cross-complex negative examples...")
-    inhibitor_list = list(positive_inhibitors)
-
-    attempts = 0
-    max_attempts = target_count * 10  # Prevent infinite loop
-
-    while len(negative_examples) < target_count and attempts < max_attempts:
-        attempts += 1
-
-        # Pick random complex and random inhibitor
-        complex_name = random.choice(positive_complexes)
-        inhibitor_id = random.choice(inhibitor_list)
-
-        # Check if this is actually a positive example
-        is_positive = any(ex[0] == complex_name and ex[2] == inhibitor_id
-                         for ex in positive_examples)
-
-        if not is_positive:
-            example = (complex_name, complex_name, inhibitor_id, 0.0)
-            if example not in negative_examples:
-                negative_examples.append(example)
-
-    # If still not enough, generate random IDs
     if len(negative_examples) < target_count:
-        print(f"Generating additional random negative examples...")
-        while len(negative_examples) < target_count:
-            complex_name = random.choice(positive_complexes)
-            random_id = str(binder_id_counter)
-            negative_examples.append((complex_name, complex_name, random_id, 0.0))
-            binder_id_counter += 1
+        print(f"  Warning: Only {len(negative_examples)} negatives available, need {target_count}")
+        return negative_examples
 
-    # Sample to get exactly target_count
-    if len(negative_examples) > target_count:
-        negative_examples = random.sample(negative_examples, target_count)
-
-    return negative_examples
+    return random.sample(negative_examples, target_count)
 
 
 def write_dataset(positive_examples: List[Tuple], negative_examples: List[Tuple],
@@ -270,8 +163,9 @@ def verify_dataset(filename: str):
         parts = line.strip().split()
         if len(parts) >= 4:
             complex_name = parts[0]
-            compound = parts[2]
-            label = parts[3]
+            # Compound ID can have spaces, so take everything between target_complex and label
+            compound = ' '.join(parts[2:-1])
+            label = parts[-1]
 
             complexes.add(complex_name)
             if label == '1.0':
@@ -313,7 +207,7 @@ def verify_dataset(filename: str):
 
 def main():
     """
-    Main function to generate the researcher's dataset.
+    Main function to generate the researcher's dataset from precomputed data.
     """
     print("="*60)
     print("RESEARCHER DATASET GENERATION SCRIPT")
@@ -327,41 +221,46 @@ def main():
     print(f"  - Random seed: {RANDOM_SEED}")
     print("\n" + "="*60)
 
-    # Read source data
-    print("\nStep 1: Reading inhibitors data...")
-    inhibitors = read_inhibitors(INHIBITORS_FILE)
-    print(f"  Loaded {len(inhibitors)} inhibitor entries")
+    # Read precomputed dataset
+    print("\nStep 1: Reading precomputed dataset...")
+    positive_examples, negative_examples, complexes, positive_inhibitors = read_precomputed_dataset(PRECOMPUTED_FILE)
+    print(f"  Loaded {len(positive_examples)} positive examples")
+    print(f"  Loaded {len(negative_examples)} negative examples")
+    print(f"  Found {len(complexes)} unique complexes")
+    print(f"  Found {len(positive_inhibitors)} unique inhibitors")
 
-    print("\nStep 2: Reading binders data...")
-    binders = read_binders(BINDERS_FILE)
-    print(f"  Loaded {len(binders)} binder entries")
+    # Verify source data
+    if len(complexes) != TARGET_UNIQUE_COMPLEXES:
+        print(f"\n⚠ Warning: Precomputed dataset has {len(complexes)} complexes, expected {TARGET_UNIQUE_COMPLEXES}")
+    if len(positive_inhibitors) != TARGET_UNIQUE_INHIBITORS:
+        print(f"\n⚠ Warning: Precomputed dataset has {len(positive_inhibitors)} unique inhibitors, expected {TARGET_UNIQUE_INHIBITORS}")
 
-    # Generate positive examples
-    print("\nStep 3: Generating positive examples...")
-    positive_examples, selected_complexes = generate_positive_examples(inhibitors, TARGET_POSITIVE,
-                                                  TARGET_UNIQUE_INHIBITORS)
-    print(f"  Generated {len(positive_examples)} positive examples")
-    print(f"  Unique inhibitors: {len(set([ex[2] for ex in positive_examples]))}")
-    print(f"  Unique complexes: {len(set([ex[0] for ex in positive_examples]))}")
+    # Sample positive examples
+    print("\nStep 2: Sampling positive examples...")
+    sampled_positives = sample_positive_examples(positive_examples, TARGET_POSITIVE,
+                                                 TARGET_UNIQUE_INHIBITORS)
+    print(f"  Sampled {len(sampled_positives)} positive examples")
+    print(f"  Unique inhibitors: {len(set([ex[2] for ex in sampled_positives]))}")
+    print(f"  Unique complexes: {len(set([ex[0] for ex in sampled_positives]))}")
 
-    # Generate negative examples
-    print("\nStep 4: Generating negative examples...")
-    negative_examples = generate_negative_examples(binders, positive_examples,
-                                                   TARGET_NEGATIVE)
-    print(f"  Generated {len(negative_examples)} negative examples")
+    # Sample negative examples
+    print("\nStep 3: Sampling negative examples...")
+    sampled_negatives = sample_negative_examples(negative_examples, TARGET_NEGATIVE)
+    print(f"  Sampled {len(sampled_negatives)} negative examples")
 
     # Write dataset
-    print("\nStep 5: Writing dataset to file...")
-    write_dataset(positive_examples, negative_examples, OUTPUT_FILE)
+    print("\nStep 4: Writing dataset to file...")
+    write_dataset(sampled_positives, sampled_negatives, OUTPUT_FILE)
 
     # Verify dataset
-    print("\nStep 6: Verifying dataset...")
+    print("\nStep 5: Verifying dataset...")
     verify_dataset(OUTPUT_FILE)
 
     print("\n" + "="*60)
     print("DATASET GENERATION COMPLETE")
     print("="*60)
-    print(f"\nOutput file: {OUTPUT_FILE}")
+    print(f"\nSource: {PRECOMPUTED_FILE}")
+    print(f"Output: {OUTPUT_FILE}")
     print("\nYou can now use this dataset for training and evaluation.")
 
 

@@ -49,15 +49,15 @@ python3 generate_researcher_dataset.py
 
 ### Input Files
 
-The script requires the following files in the `Data/` directory:
+The script requires the following file in the `Data/` directory:
 
-1. **2p2iInhibitorsSMILES.txt** - Contains positive examples (known inhibitors)
-   - Format: `complex_name inhibited_complex pdb_id ligand_id smiles label`
-   - Total: 956 entries from 35 unique complexes
-
-2. **BindersWithComplexname.csv** - Contains binders used as negative examples
-   - Format: `Complexname,Binders SMILES`
-   - Total: 11,789 entries
+**WriteAllexamplesRandomBindersIdsAll_24JAN_Binary.txt** - Precomputed dataset containing all examples
+   - Format: `complex_name target_complex compound_id label`
+   - Note: Compound IDs can contain spaces (e.g., "quingestanol acetate")
+   - Total: 15,695 examples
+     - 857 positives (with 606 unique inhibitors)
+     - 14,838 negatives
+     - 22 unique protein complexes
 
 ### Output File
 
@@ -67,44 +67,44 @@ The script requires the following files in the `Data/` directory:
 
 ### Algorithm
 
-The script uses a multi-step approach to generate the dataset:
+The script uses an intelligent sampling approach from the precomputed dataset:
 
-#### Step 1: Complex Selection
-- Ranks all 35 complexes by number of unique inhibitors
-- Selects the top 22 complexes to maximize unique inhibitor coverage
-- Ensures exactly 22 unique protein complexes in the final dataset
+#### Step 1: Read Precomputed Dataset
+- Loads `WriteAllexamplesRandomBindersIdsAll_24JAN_Binary.txt`
+- Separates into positives (857) and negatives (14,838)
+- Verifies 22 unique complexes and 606 unique inhibitors are present
+- Handles compound IDs with spaces correctly
 
-#### Step 2: Positive Example Generation
-1. **First Pass**: Selects examples to ensure exactly 606 unique inhibitors
-   - One example per unique inhibitor
-2. **Second Pass**: Adds additional examples from the 606 selected inhibitors
-   - Reaches the target of 714 total positive examples
-   - Maintains the 606 unique inhibitor constraint
+#### Step 2: Sample Positive Examples
+Samples 714 positive examples from 857 available while maintaining all 606 unique inhibitors:
 
-#### Step 3: Negative Example Generation
-Generates 10,413 negative examples using two strategies:
+1. **First Pass**: Ensures all unique inhibitors are represented
+   - Groups examples by inhibitor
+   - Randomly selects one example for each of the 606 unique inhibitors
 
-1. **Binders Strategy** (~75% of negatives)
-   - Uses compounds that bind to proteins but don't inhibit the complex
-   - Sourced from BindersWithComplexname.csv
-   - Limited to the 22 selected complexes
+2. **Second Pass**: Adds remaining examples to reach 714 total
+   - Samples from remaining examples
+   - Can include multiple examples for some inhibitors
+   - Maintains diversity across complexes
 
-2. **Cross-Complex Strategy** (~25% of negatives)
-   - Pairs inhibitors with complexes they don't inhibit
-   - Creates biologically plausible negative examples
-   - Prevents the model from learning trivial patterns
+#### Step 3: Sample Negative Examples
+- Randomly samples 10,413 negatives from 14,838 available
+- Maintains representation across all 22 complexes
+- Preserves the mix of binders and cross-complex negatives from precomputed data
 
 #### Step 4: Dataset Combination
-- Combines positive and negative examples
-- Shuffles the dataset randomly
+- Combines 714 positives + 10,413 negatives = 11,127 total
+- Shuffles the dataset randomly (using seed 42 for reproducibility)
 - Writes to output file
 
 ### Features
 
+- **Uses Precomputed Data**: Samples from the actual research dataset
 - **Reproducible**: Uses fixed random seed (42) for consistent results
 - **Validated**: Automatically verifies all specifications are met
 - **Comprehensive**: Includes detailed logging of each step
-- **Efficient**: Optimized algorithms prevent infinite loops
+- **Fast**: Direct sampling is much faster than regenerating from raw sources
+- **Accurate**: Uses the exact same data that was precomputed for research
 
 ### Verification
 
@@ -124,34 +124,34 @@ UNIQUE INHIBITORS (from positive examples): 606 (target: 606)
 ✓ ALL CHECKS PASSED!
 ```
 
-### Top 22 Selected Complexes
+### The 22 Protein Complexes
 
-The script selects these complexes (ordered by number of inhibitors):
+The precomputed dataset contains these 22 protein complexes (ordered by unique inhibitor count):
 
-1. 3UVW_A_2_B (206 inhibitors)
-2. 2B4J_A_2_B (71 inhibitors)
-3. 2RNY_A_2_B (61 inhibitors)
-4. 4QC3_A_2_B (52 inhibitors)
-5. 4QC3_A_2_C (52 inhibitors)
-6. 1YCR_A_2_B (51 inhibitors)
-7. 4AJY_C_2_B (30 inhibitors)
-8. 4AJY_C_2_H (30 inhibitors)
-9. 4AJY_C_2_V (30 inhibitors)
-10. 1NW9_A_2_B (29 inhibitors)
-11. 4GQ6_A_2_B (23 inhibitors)
-12. 2E3K_A_2_B (23 inhibitors)
-13. 2E3K_A_2_C (23 inhibitors)
-14. 2E3K_A_2_Q (23 inhibitors)
-15. 4YY6_A_2_Z (22 inhibitors)
-16. 1BXL_A_2_B (21 inhibitors)
-17. 4ESG_A_2_B (16 inhibitors)
-18. 4ESG_A_2_D (16 inhibitors)
-19. 2FLU_X_2_P (12 inhibitors)
-20. 1YCQ_A_2_B (11 inhibitors)
-21. 3D9T_A_2_C (10 inhibitors)
-22. 2XA0_A_2_B (9 inhibitors)
+1. 3UVW_A_2_B (201 unique inhibitors, 201 examples)
+2. 2B4J_A_2_B (65 unique inhibitors, 65 examples)
+3. 2RNY_A_2_B (61 unique inhibitors, 61 examples)
+4. 4QC3_A_2_C (52 unique inhibitors, 104 examples)
+5. 1YCR_A_2_B (51 unique inhibitors, 51 examples)
+6. 4AJY_C_2_B (30 unique inhibitors, 90 examples)
+7. 4GQ6_A_2_B (23 unique inhibitors, 23 examples)
+8. 2E3K_A_2_Q (22 unique inhibitors, 66 examples)
+9. 4YY6_A_2_Z (22 unique inhibitors, 22 examples)
+10. 4ESG_A_2_D (15 unique inhibitors, 30 examples)
+11. 1NW9_A_2_B (13 unique inhibitors, 13 examples)
+12. 2FLU_X_2_P (12 unique inhibitors, 12 examples)
+13. 1BXL_A_2_B (12 unique inhibitors, 12 examples)
+14. 1YCQ_A_2_B (11 unique inhibitors, 11 examples)
+15. 3D9T_A_2_D (10 unique inhibitors, 28 examples)
+16. 3WN7_A_2_M (9 unique inhibitors, 27 examples)
+17. 1Z92_A_2_B (7 unique inhibitors, 7 examples)
+18. 3TDU_A_2_F (5 unique inhibitors, 20 examples)
+19. 3DAB_A_2_B (5 unique inhibitors, 5 examples)
+20. 1F47_A_2_B (4 unique inhibitors, 4 examples)
+21. 2XA0_A_2_B (3 unique inhibitors, 3 examples)
+22. 1BKD_S_2_R (2 unique inhibitors, 2 examples)
 
-These 22 complexes provide 615 unique inhibitors, from which 606 are selected for the dataset.
+These 22 complexes collectively contain 606 unique inhibitors across 857 positive examples in the precomputed dataset.
 
 ## Example Output
 
