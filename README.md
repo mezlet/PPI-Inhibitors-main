@@ -24,6 +24,29 @@ pip install biopython
 Binders With Tanimoto Similarity 0.85 dataset from here [https://github.com/adibayaseen/PPI-Inhibitors/blob/01ad4975fb9133825b1bf9e71b64fcdaaa5e4d8b/Data/Binders%20With%20Tanimoto%20Similarity%200.85.csv] <br/>
 SuperDrug2 Compounds are used for Random Negative examples can downloaded from here  <br> [https://github.com/adibayaseen/PPI-Inhibitors/blob/b1e45884f61f792399abad2e4492f48083ab1093/Data/approved_drugs_chemical_structure_identifiers.xlsx]<br/>
 
+## 🆕 Researcher Dataset Generation
+
+We now provide an automated script to generate the exact dataset used in research with the following specifications:
+- **TOTAL EXAMPLES**: 11,127
+- **POSITIVE EXAMPLES**: 714 (inhibitors)
+- **NEGATIVE EXAMPLES**: 10,413 (non-inhibitors)
+- **UNIQUE PROTEIN COMPLEXES**: 22
+- **UNIQUE INHIBITORS**: 606
+
+### Quick Start
+
+**Option 1: Standalone Script**
+```bash
+python3 generate_researcher_dataset.py
+```
+
+**Option 2: Integrated in Notebook**
+- Open `Complete_PPI_Inhibitors_Pipeline_End_To_End.ipynb`
+- Navigate to Section 7.5: "Generate Researcher Dataset"
+- Run the cells to automatically generate and verify the dataset
+
+See [DATASET_GENERATION_README.md](DATASET_GENERATION_README.md) for detailed documentation.
+
 # Data discription
 ## Input File used in All Methods 
 WriteAllexamplesRandomBindersIdsAll_24JAN_Binary.txt can be downloaded from this link [https://github.com/adibayaseen/PPI-Inhibitors/blob/2d6bd03422602ec19147870c487e64018b52660f/Data/WriteAllexamplesRandomBindersIdsAll_24JAN_Binary.txt]<br/>

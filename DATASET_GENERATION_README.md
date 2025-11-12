@@ -12,22 +12,40 @@ The generated dataset contains:
 - **Unique Protein Complexes**: 22
 - **Unique Inhibitors**: 606 (from positive examples)
 
-## Script: `generate_researcher_dataset.py`
+## Usage Options
 
-### Purpose
+There are two ways to generate the researcher's dataset:
 
-This script reads from source data files (2p2i inhibitors and binders) and generates a balanced dataset according to the research specifications. The dataset is designed for training machine learning models to predict protein-protein interaction (PPI) inhibitors.
+### Option 1: Standalone Script (`generate_researcher_dataset.py`)
 
-### Requirements
+**Purpose**: A standalone Python script that can be run from the command line.
 
+**Requirements**:
 - Python 3.6+
 - No external libraries required (uses only standard library)
 
-### Usage
-
+**Usage**:
 ```bash
 python3 generate_researcher_dataset.py
 ```
+
+### Option 2: Integrated in Complete Pipeline Notebook
+
+**Purpose**: The dataset generation is now integrated into the complete pipeline notebook for seamless workflow.
+
+**Location**: `Complete_PPI_Inhibitors_Pipeline_End_To_End.ipynb` → Section 7.5
+
+**Usage**:
+1. Open the notebook in Google Colab or Jupyter
+2. Navigate to Section 7.5: "Generate Researcher Dataset"
+3. Run the cells in that section
+4. The dataset will be automatically generated and verified
+
+**Features**:
+- Automatic detection of existing dataset (won't regenerate if already exists)
+- Integrated verification after generation
+- Ready to use immediately in subsequent training steps
+- All functions prefixed with `_nb` to avoid naming conflicts
 
 ### Input Files
 
