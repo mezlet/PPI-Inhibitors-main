@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+*.pyo
+test_generated_data/
+generated_data/
